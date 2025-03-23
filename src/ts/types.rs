@@ -17,6 +17,12 @@ impl Pid {
     /// PID of the Program Association Table (PAT) packet.
     pub const PAT: u16 = 0;
 
+    /// PID of the Conditional Access Table (CAT) packet
+    pub const CAT: u16 = 1;
+
+    /// PID of the Service Description Table (SDT) packet
+    pub const SDT: u16 = 0x11;
+
     /// PID of the null packet.
     pub const NULL: u16 = 0x1FFF;
 
