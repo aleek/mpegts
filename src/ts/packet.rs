@@ -83,6 +83,7 @@ impl TsPacket {
 #[allow(missing_docs)]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct TsHeader {
+    pub payload_unit_start_indicator: bool,
     pub transport_error_indicator: bool,
     pub transport_priority: bool,
     pub pid: Pid,
@@ -108,6 +109,7 @@ impl TsHeader {
         let continuity_counter = track!(ContinuityCounter::from_u8(n & 0b1111))?;
 
         let header = TsHeader {
+            payload_unit_start_indicator,
             transport_error_indicator,
             transport_priority,
             pid,

@@ -80,6 +80,7 @@ mod test {
     fn pat_packet() -> TsPacket {
         TsPacket {
             header: TsHeader {
+                payload_unit_start_indicator: true,
                 transport_error_indicator: false,
                 transport_priority: false,
                 pid: Pid::from(0),
@@ -141,6 +142,7 @@ mod test {
     fn pmt_packet() -> TsPacket {
         TsPacket {
             header: TsHeader {
+                payload_unit_start_indicator: true,
                 transport_error_indicator: false,
                 transport_priority: false,
                 pid: Pid::new(480).unwrap(),
