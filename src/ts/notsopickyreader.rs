@@ -6,34 +6,20 @@ use std::io::Read;
 
 /// TS packet reader.
 #[derive(Debug)]
-pub struct TsPacketNotSoPickyReader<R> {
-    stream: R,
+pub struct TsPacketNotSoPickyReader {
     pids: HashMap<Pid, PidKind>,
 }
 
-impl<R: Read> TsPacketNotSoPickyReader<R> {
+impl TsPacketNotSoPickyReader {
     /// Makes a new `TsPacketNotSoPickyReader` instance.
-    pub fn new(stream: R) -> Self {
+    pub fn new() -> Self {
         TsPacketNotSoPickyReader {
-            stream,
             pids: HashMap::new(),
         }
     }
 
-    /// Returns a reference to the underlaying byte stream.
-    pub fn stream(&self) -> &R {
-        &self.stream
-    }
-
-    /// Converts `TsPacketReader` into the underlaying byte stream `R`.
-    pub fn into_stream(self) -> R {
-        self.stream
-    }
-}
-
-impl<R: Read> ReadTsPacket for TsPacketNotSoPickyReader<R> {
-    fn read_ts_packet(&mut self) -> Result<Option<TsPacket>> {
-        let mut reader = self.stream.by_ref().take(TsPacket::SIZE as u64);
+    pub fn read_ts_packet(&mut self, buf: &[u8]) -> Result<Option<TsPacket>> {
+        let mut reader = buf.take(TsPacket::SIZE as u64);
         let mut peek = [0; 1];
         let eos = track_io!(reader.read(&mut peek))? == 0;
         if eos {
@@ -89,7 +75,7 @@ impl<R: Read> ReadTsPacket for TsPacketNotSoPickyReader<R> {
                         }
                     } else {
                         let bytes = track!(Bytes::read_from(&mut reader))?;
-                    
+
                         TsPayload::Raw(bytes)
                     }
                 }
@@ -105,11 +91,5 @@ impl<R: Read> ReadTsPacket for TsPacketNotSoPickyReader<R> {
             adaptation_field,
             payload,
         }))
-    }
-}
-
-impl<R: Read> TsPacketNotSoPickyReader<R> {
-    pub fn set_pid_kind(&mut self, pid: Pid, kind: PidKind) {
-        self.pids.insert(pid, kind);
     }
 }

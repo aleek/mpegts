@@ -86,6 +86,7 @@ mod test {
                 pid: Pid::from(0),
                 transport_scrambling_control: TransportScramblingControl::NotScrambled,
                 continuity_counter: ContinuityCounter::from_u8(1).unwrap(),
+                payload_unit_start_indicator: true,
             },
             adaptation_field: None,
             payload: Some(TsPayload::Pat(payload::Pat {
@@ -148,6 +149,7 @@ mod test {
                 pid: Pid::new(480).unwrap(),
                 transport_scrambling_control: TransportScramblingControl::NotScrambled,
                 continuity_counter: ContinuityCounter::from_u8(0).unwrap(),
+                payload_unit_start_indicator: true,
             },
             adaptation_field: None,
             payload: Some(TsPayload::Pmt(payload::Pmt {

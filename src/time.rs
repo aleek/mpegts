@@ -79,6 +79,12 @@ impl From<u32> for Timestamp {
     }
 }
 
+impl From<Timestamp> for u64 {
+    fn from(ts: Timestamp) -> Self {
+        ts.0
+    }
+}
+
 /// Timestamp type for PCR/OPCR/ESCR.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct ClockReference(u64);
