@@ -115,7 +115,11 @@ impl<R: Read> ReadTsPacket for TsPacketReader<R> {
 }
 
 #[derive(Debug, Clone)]
+/// Describes Kind of Pid we deal with based on payload
 pub enum PidKind {
+    /// Program Mapping Table
     Pmt,
+
+    /// Packetized Elementary Stream
     Pes,
 }

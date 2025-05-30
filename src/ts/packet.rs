@@ -89,7 +89,6 @@ pub struct TsHeader {
     pub pid: Pid,
     pub transport_scrambling_control: TransportScramblingControl,
     pub continuity_counter: ContinuityCounter,
-    pub payload_unit_start_indicator: bool,
 }
 impl TsHeader {
     pub(super) fn read_from<R: Read>(
@@ -116,7 +115,6 @@ impl TsHeader {
             pid,
             transport_scrambling_control,
             continuity_counter,
-            payload_unit_start_indicator,
         };
         Ok((
             header,
@@ -160,6 +158,7 @@ pub enum TsPayload {
     Raw(Bytes),
 }
 impl TsPayload {
+    /// Writes raw ts payload to provided writer
     pub fn write_to<W: Write>(&self, writer: W) -> Result<()> {
         match *self {
             TsPayload::Pat(ref x) => track!(x.write_to(writer)),

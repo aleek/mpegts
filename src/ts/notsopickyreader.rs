@@ -1,5 +1,5 @@
 use crate::ts::payload::{Bytes, Null, Pat, Pes, Pmt};
-use crate::ts::{AdaptationField, Pid, TsHeader, TsPacket, TsPayload, ReadTsPacket, PidKind};
+use crate::ts::{AdaptationField, Pid, TsHeader, TsPacket, TsPayload, PidKind};
 use crate::{ErrorKind, Result};
 use std::collections::HashMap;
 use std::io::Read;
@@ -18,6 +18,7 @@ impl TsPacketNotSoPickyReader {
         }
     }
 
+    /// Read and parses ts packet from provided buffer
     pub fn read_ts_packet(&mut self, buf: &[u8]) -> Result<Option<TsPacket>> {
         let mut reader = buf.take(TsPacket::SIZE as u64);
         let mut peek = [0; 1];
