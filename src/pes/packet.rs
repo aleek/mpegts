@@ -9,7 +9,7 @@ const PACKET_START_CODE_PREFIX: u64 = 0x00_0001;
 
 /// PES packet.
 #[allow(missing_docs)]
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone,PartialEq)]
 pub struct PesPacket<B> {
     pub header: PesHeader,
     pub data: B,
@@ -41,7 +41,7 @@ pub struct PesHeader {
     pub escr: Option<ClockReference>,
 }
 impl PesHeader {
-    pub(super) fn optional_header_len(&self) -> u16 {
+    pub fn optional_header_len(&self) -> u16 {
         3 + self.pts.map_or(0, |_| 5) + self.dts.map_or(0, |_| 5) + self.escr.map_or(0, |_| 6)
     }
 
